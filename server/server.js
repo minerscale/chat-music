@@ -58,7 +58,7 @@ const httpsListener = function (request, response) {
 //const https_server = https.createServer(options, httpsListener);
 const https_server = http.createServer(httpsListener);
 https_server.listen(https_port, host, () => {
-    console.log(`Server is running on https://${host}:${https_port}`);
+    console.log(`Server is running on http://${host}:${https_port}`);
 });
 
 //const server = https.createServer(options);

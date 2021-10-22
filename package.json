@@ -1,4 +1,7 @@
 {
+  "scripts": {
+    "start": "pushd website; node ../server/server.js"
+  },
   "dependencies": {
     "ws": "^8.2.3"
   }
