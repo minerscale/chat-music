@@ -1,4 +1,4 @@
-var chatSocket = new WebSocket("ws://192.168.23.186:9000");
+var chatSocket = new WebSocket("ws://ws.chatmusik.aaroncottle.com.au");
 
 function sendMessage() {
     msg = document.getElementById("chat-message").value.trim();

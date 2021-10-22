@@ -1,6 +1,6 @@
 const fs = require('fs');
-//const https = require('https');
-http = require('http');
+const https = require('https');
+const http = require('http');
 const path = require('path');
 const WebSocketServer = require('ws').WebSocketServer;
 
@@ -8,10 +8,10 @@ const host = '0.0.0.0';
 const https_port = 8080;
 const wss_port = 9000;
 
-//const options = {
-//  key: fs.readFileSync('../server/cert/CA/localhost/localhost.decrypted.key'),
-//  cert: fs.readFileSync('../server/cert/CA/localhost/localhost.crt')
-//};
+const options = {
+  key: fs.readFileSync('../server/cert/CA/cloudflare/cloudflare.key'),
+  cert: fs.readFileSync('../server/cert/CA/cloudflare/cloudflare.crt')
+};
 
 const httpsListener = function (request, response) {
     var filePath = '.' + request.url;
@@ -57,7 +57,7 @@ const httpsListener = function (request, response) {
 //const https_server = https.createServer(options, httpsListener);
 const https_server = http.createServer(httpsListener);
 https_server.listen(https_port, host, () => {
-    console.log(`Server is running on http://${host}:${https_port}`);
+    console.log(`Server is running on https://${host}:${https_port}`);
 });
 
 //const server = https.createServer(options);
@@ -65,6 +65,7 @@ const server = http.createServer();
 const wss = new WebSocketServer({ server });
 
 wss.on('connection', function connection(ws) {
+  console.log("recieved connection!")
   ws.on('message', function incoming(message) {
     console.log('received: %s', message);
     wss.clients.forEach(function(client) {
@@ -73,4 +74,4 @@ wss.on('connection', function connection(ws) {
   });
 });
 
-server.listen(9000);
+server.listen(wss_port);
