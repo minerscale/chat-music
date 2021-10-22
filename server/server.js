@@ -2,7 +2,6 @@ const fs = require('fs');
 //const https = require('https');
 http = require('http');
 const path = require('path');
-const net = require('net');
 const WebSocketServer = require('ws').WebSocketServer;
 
 const host = '0.0.0.0';
