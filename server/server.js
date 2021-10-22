@@ -9,10 +9,10 @@ const host = '0.0.0.0';
 const https_port = 8080;
 const wss_port = 9000;
 
-const options = {
-  key: fs.readFileSync('../server/cert/CA/localhost/localhost.decrypted.key'),
-  cert: fs.readFileSync('../server/cert/CA/localhost/localhost.crt')
-};
+//const options = {
+//  key: fs.readFileSync('../server/cert/CA/localhost/localhost.decrypted.key'),
+//  cert: fs.readFileSync('../server/cert/CA/localhost/localhost.crt')
+//};
 
 const httpsListener = function (request, response) {
     var filePath = '.' + request.url;
