@@ -1,16 +1,16 @@
 body {
-	background-color: #282A2F;
-	margin: 0;
-	height:  100%;
-	width: 100%;
-	overflow: hidden;
+  background-color: #282A2F;
+  margin: 0;
+  height:  100%;
+  width: 100%;
+  overflow: hidden;
 }
 
 .message {
-	animation: fadeIn 30s;
-	color: #d1d0c5;
-	font-family: monospace;
-	font-size: 24px;
+  animation: fadeIn 15s;
+  color: #d1d0c5;
+  font-family: monospace;
+  font-size: 24px;
 }
 @keyframes fadeIn {
   0% {opacity:0;}
@@ -19,43 +19,63 @@ body {
   100% {opacity:0;}
 }
 
+#enter {
+  color: #FFFFFF;
+  font-family: monospace;
+  font-size: 60px;
+}
+
+#explainer {
+  color: #777777;
+  font-family: monospace;
+  font-size: 16px;
+  position: absolute;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  bottom: 10px;
+}
+
 textarea {
-	resize: none;
-	font-family: monospace;
-	font-size: 1.75em;
-	text-align: right;
-	opacity: 80%;
-	background-color: #666666;
-	color: #FFFFFF;
-	overflow: hidden;
+  resize: none;
+  font-family: monospace;
+  font-size: 1.75em;
+  text-align: right;
+  opacity: 80%;
+  background-color: #666666;
+  color: #FFFFFF;
+  overflow: hidden;
 }
 
 textarea:focus {
-	outline: none !important;
+  outline: none !important;
 }
 
 textarea,
 [contenteditable] {
-	caret-color: white;
+  caret-color: white;
+}
+
+.grid {
+  display: grid;
+  grid-template-rows:  2em;
+  grid-template-columns: 1fr auto;
 }
 
 .center {
-	display: grid;
-	grid-template-rows:  2em;
-	grid-template-columns: 1fr auto;
-	margin: 0;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    -ms-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
+  margin: 0px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
 }
 
 #submit {
-	font-family: monospace;
-	background-color: #666666;
-	color: #FFFFFF;
-	border: none;
-	opacity: 80%;
-	font-size: 1.2em;
+  font-family: monospace;
+  background-color: #666666;
+  color: #FFFFFF;
+  border: none;
+  opacity: 80%;
+  font-size: 1.2em;
 }

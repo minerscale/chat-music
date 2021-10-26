@@ -10,14 +10,14 @@
 </head>
 
 <body>
-  <div class="center">
-    <center>
-      <a id="enter" href="https://chatmusik.aaroncottle.com.au/main.html">click to begin</a>
-    </center>
-    <br>
+  <div id="messages">
+    <div id="message-insert-point"></div>
   </div>
-  <div id="explainer">
-      this annoying landing page is to prevent browsers from muting the tab instantly <3
+  <div class="center grid">
+    <textarea id="chat-message" rows="1" cols="50" maxlength="51"></textarea>
+    <button type="button" id="submit" onclick="sendMessage()">Send</button>
   </div>
+
+  <script src="js/client.js"></script>
 </body>
 </html>

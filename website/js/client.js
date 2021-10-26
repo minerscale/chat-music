@@ -1,4 +1,6 @@
-var chatSocket = new WebSocket("ws://ws.chatmusik.aaroncottle.com.au");
+var chatSocket = new WebSocket("wss://chatmusik.aaroncottle.com.au:8443");
+const context = new AudioContext();
+const message_ttl = 15;
 
 function sendMessage() {
     msg = document.getElementById("chat-message").value.trim();
@@ -9,13 +11,28 @@ function sendMessage() {
 var area = document.getElementById("chat-message");
 
 area.addEventListener('input', function() {
+    if (context.state === 'suspended') {
+        context.resume()
+    }
     if (document.getElementById("chat-message").value.includes("\n")) {
         sendMessage()
     }
 }, false);
 
+var processorNode;
+
+(async () => {
+    await context.audioWorklet.addModule('js/audioprocess.js');
+    processorNode = new AudioWorkletNode(context, 'audio-processor');
+    processorNode.parameters.get("sampleRate").value = context.sampleRate;
+    processorNode.parameters.get("ttl").value = message_ttl;
+    processorNode.connect(context.destination);
+})();
+
 chatSocket.onmessage = function(event) {
     console.log("Recieved:", event.data);
+
+    processorNode.port.postMessage(event.data);
 
     var posx = ~~(85*Math.random());
     var posy = ~~(98*Math.random());
@@ -28,7 +45,7 @@ chatSocket.onmessage = function(event) {
 
     setTimeout(() => {
         div.remove();
-    }, 30000);
+    }, message_ttl * 1000);
 
     document.getElementById("messages").insertBefore(div, document.getElementById("message-insert-point"));
 };

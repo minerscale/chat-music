@@ -1,17 +1,10 @@
 const fs = require('fs');
 const https = require('https');
-const http = require('http');
+//const http = require('http');
+const WSServer = require('ws').Server;
 const path = require('path');
-const WebSocketServer = require('ws').WebSocketServer;
 
-const host = '0.0.0.0';
-const https_port = 8080;
-const wss_port = 9000;
-
-const options = {
-  key: fs.readFileSync('../server/cert/CA/cloudflare/cloudflare.key'),
-  cert: fs.readFileSync('../server/cert/CA/cloudflare/cloudflare.crt')
-};
+const port = 8443;
 
 const httpsListener = function (request, response) {
     var filePath = '.' + request.url;
@@ -27,8 +20,8 @@ const httpsListener = function (request, response) {
         case '.css':
             contentType = 'text/css';
             break;
-        case '.png':
-            contentType = 'image/png';
+        case '.wasm':
+            contentType = 'application/wasm';
             break;
     }
 
@@ -43,7 +36,7 @@ const httpsListener = function (request, response) {
             }
             else {
                 response.writeHead(500);
-                response.end('Sorry, check with the site admin for error: '+error.code+' ..\n');
+                response.end('Sorry, check with the site admin for error: ' + error.code + ' ..\n');
                 response.end(); 
             }
         }
@@ -54,24 +47,30 @@ const httpsListener = function (request, response) {
     });
 };
 
-//const https_server = https.createServer(options, httpsListener);
-const https_server = http.createServer(httpsListener);
-https_server.listen(https_port, host, () => {
-    console.log(`Server is running on https://${host}:${https_port}`);
+const options = {
+    key: fs.readFileSync('../server/cert/CA/cloudflare/cloudflare.key'),
+    cert: fs.readFileSync('../server/cert/CA/cloudflare/cloudflare.crt')
+};
+
+const server = https.createServer(options);
+
+const wss = new WSServer({
+    server: server
 });
 
-//const server = https.createServer(options);
-const server = http.createServer();
-const wss = new WebSocketServer({ server });
+server.on('request', httpsListener);
 
 wss.on('connection', function connection(ws) {
-  console.log("recieved connection!")
-  ws.on('message', function incoming(message) {
-    console.log('received: %s', message);
-    wss.clients.forEach(function(client) {
-        client.send(String(message))
+    console.log("recieved connection!")
+    ws.on('message', function incoming(message) {
+        console.log('received: %s', message);
+        wss.clients.forEach(function(client) {
+            var message_clean = String(message).slice(0,51).trim();
+            if (message_clean) client.send(message_clean);
+        });
     });
-  });
 });
 
-server.listen(wss_port);
+server.listen(port, function() {
+    console.log(`https/ws server listening on ${port}`);
+});
