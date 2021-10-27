@@ -1,10 +1,11 @@
 const fs = require('fs');
 const https = require('https');
-//const http = require('http');
 const WSServer = require('ws').Server;
 const path = require('path');
 
 const port = 8443;
+
+const start = Date.now();
 
 const httpsListener = function (request, response) {
     var filePath = '.' + request.url;
@@ -63,7 +64,7 @@ server.on('request', httpsListener);
 wss.on('connection', function connection(ws) {
     console.log("recieved connection!")
     ws.on('message', function incoming(message) {
-        console.log('received: %s', message);
+        console.log((Date.now() - start) +':'+message);
         wss.clients.forEach(function(client) {
             var message_clean = String(message).slice(0,51).trim();
             if (message_clean) client.send(message_clean);
